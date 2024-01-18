@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>regularUser Panel</title>
+    <style>
+        html {
+            height: 100%;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background: linear-gradient(white, #3d4e61);
+            color: #fff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 90vh;
+        }
+        .header {
+            position: absolute;
+            background-color: #3d4e61;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Add this to distribute space between the children */
+            z-index: 2; /* Ensure it appears above other elements */
+            padding: 10px; /* Add padding for better spacing */
+        }
+
+        h1 {
+            color: black;
+            text-align: left; /* Align text to the left */
+            margin: 0; /* Remove margin to avoid extra space */
+        }
+
+        .dropdown {
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: inherit;
+            background-color: #f1f0f0;
+            min-width: 16px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            text-align: left;
+            color: #060606;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        button {
+            background: #3d4e61;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            margin-bottom: 50px;
+        }
+
+        button:hover {
+            background: transparent;
+            color: #3d4e61;
+            border: 2px solid #060606;
+        }
+        footer {
+    background-color: #3d4e61;
+    color: #fff;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome to regularUser Panel</h1>
+        <div class="dropdown" id="userDropdown">
+            <button id="userDropdownBtn">
+                <!-- Add a three-dotted icon or text as the button content -->
+                <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="icon-sm flex-shrink-0 text-gray-500 gizmo:hidden" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="19" cy="12" r="1"></circle>
+                    <circle cx="5" cy="12" r="1"></circle>
+                </svg>
+            </button>
+            <div class="dropdown-content">
+                <!-- User details -->
+                <ul>
+                    <li><%= regularUser.name %></li>
+                    <li><%= regularUser.school %></li>
+                    <li><%= regularUser.email %></li>
+                    <li><%= regularUser.woxsenID %></li>
+                </ul>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+    
+    <button id="laundryDropButton" onclick="goToDropPage()">Drop Laundry</button>
+    <button id="help" onclick="goToHelpSection()">Help Section</button>
+    <footer>
+        // add matter in it
+        &copy; 2023 Your Website Name
+    </footer>
+    <script>
+        // Function to toggle the visibility of the dropdown
+        function toggleDropdown() {
+            var dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+    
+        // Add a click event listener to the three-dotted button
+        document.getElementById('userDropdownBtn').addEventListener('click', function (event) {
+            event.stopPropagation(); // Prevent the click event from propagating to the window
+            toggleDropdown();
+        });
+    
+        // Close the dropdown menu if the user clicks outside of it
+        window.addEventListener('click', function (event) {
+            var dropdown = document.getElementById('userDropdown');
+            if (!event.target.closest('.dropdown') && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+    
+        // Handle the case when clicking inside the dropdown content
+        document.querySelector('.dropdown-content').addEventListener('click', function (event) {
+            event.stopPropagation(); // Prevent the click event from propagating to the dropdown
+        });
+    
+        function goToDropPage() {
+            window.location.href = '/pre_drop';
+        }
+    
+        function goToHelpSection() {
+            window.location.href = '/helpsub';
+        }
+    </script>
+</body>
+</html>

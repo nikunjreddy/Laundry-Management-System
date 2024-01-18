@@ -1,0 +1,14 @@
+{
+  "name": "mp",
+  "version": "1.0.0",
+  "description": "The Laundry Management System is a web-based application developed using Node.js, Express, MongoDB, and other technologies. It provides a platform for managing laundry services for a university or similar institution.",
+  "main": "admin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Admin Registration</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Registration</h2>
+        <form id="adminRegistrationForm" action="/admin_reg" method="post">
+            <label for="name">Name:</label>
+            <input type="text" name="name" required>
+
+            <label for="email">email:</label>
+            <input type="email" name="email" required>
+
+            <label for="position">Position:</label>
+            <input type="text" name="position" required>
+
+            <label for="woxsenID">WoxsenID:</label>
+            <input type="text" name="woxsenID" id="woxsenID" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="text" name="phone" required min="1000000000" >
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+            
+            <input type="submit" value="Submit Form">
+        </form>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+              const adminRegistrationForm = document.getElementById('adminRegistrationForm');
+            
+              adminRegistrationForm.addEventListener('submit', function(event) {
+                const formData = new FormData(adminRegistrationForm);
+                fetch('/admin_reg', {
+                  method: 'POST',
+                  body: formData,
+                })
+                .then(response => response.text())
+                .then(data => {
+                  console.log(data);
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                });
+              });
+            });
+            </script>
+    </div>
+</body>
+</html>

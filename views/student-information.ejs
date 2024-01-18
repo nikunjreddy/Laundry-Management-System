@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Information</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color:#3d4e61;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #d6c4c4;
+            text-align: center;
+        }
+
+        .chat-container {
+            width: 80%;
+            max-width: 600px; /* Set a maximum width for the chat container */
+            overflow: auto; /* Enable vertical scrolling for the chat container */
+        }
+
+        .chat-bubble {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            max-width: 70%; /* Limit the width of the chat messages */
+        }
+
+        .chat-bubble.sent {
+            background-color:#25282b;
+            color: #fff;
+            align-self: flex-end;
+        }
+
+        table {
+            display: none; /* Hide the table initially */
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #e6f7ff;
+        }
+    </style>
+</head>
+<body ng-app="myApp" ng-controller="myController">
+    <h1>Student Information</h1>
+
+    <div class="chat-container">
+        <div class="chat-bubble" ng-repeat="student in students" ng-class="{ 'sent': $even, 'received': !$even }">
+            <p><strong>Name:</strong> {{ student.name }}</p>
+            <p><strong>Phone Number:</strong> {{ student.phone }}</p>
+            <p><strong>Application Number:</strong> {{ student.applicationNumber }}</p>
+            <p><strong>Query:</strong> {{ student.query }}</p>
+        </div>
+    </div>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Application Number</th>
+            <th>Query</th>
+        </tr>
+        <tr ng-repeat="student in students">
+            <td>{{ student.name }}</td>
+            <td>{{ student.phone }}</td>
+            <td>{{ student.applicationNumber }}</td>
+            <td>{{ student.query }}</td>
+        </tr>
+    </table>
+
+    <!-- AngularJS Script -->
+    <script>
+        var app = angular.module('myApp', []);
+
+        app.controller('myController', function ($scope, $http) {
+            // Fetch student data
+            $http.get('/helpstudents')
+                .then(function (response) {
+                    // Extract the students array from the response
+                    $scope.students = response.data.students || [];
+
+                    // Add class to show/hide table based on data presence
+                    if ($scope.students.length > 0) {
+                        angular.element(document.querySelector('.has-students')).addClass('has-students');
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error fetching data:', error);
+                });
+        });
+    </script>
+</body>
+</html>

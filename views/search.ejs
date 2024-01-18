@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Details</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  
+  background:  #3d4e61;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  color: #a9a5a5;
+  margin: 0;
+}
+
+.header-container {
+  background-color: #007bff; /* Updated color */
+  color: #0b0a0a;
+  text-align: center;
+  padding: 1px;
+  justify-content: space-between;
+  text-emphasis-color: white;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  box-sizing: border-box; /* Add this line */
+}
+
+
+nav {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 15px;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 70px; /* Adjust this margin as needed */
+}
+
+form {
+  margin: 20px;
+  text-align: center;
+}
+
+label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+select,
+input[type="text"] {
+  padding: 8px;
+}
+
+button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+#details {
+  margin-top: 20px;
+}
+
+table {
+  width: 80%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: #2d3131;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #333;
+  color: #fff;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+p.submitted-text,
+p.not-picked-up {
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+footer {
+  background-color: #18171772;
+  color: #fff;
+  text-align: center;
+  padding: 0.5px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+    
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Search Details</h1>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/contactus">Contact Us</a>
+    </nav>
+</header>
+ 
+  <div class="form-container">
+    <form id="searchForm" action="/searchday" method="get">
+      <label for="day">Select Day: </label>
+      <select name="day" id="day">
+        <option value="1">Monday</option>
+        <option value="2">Tuesday</option>
+        <option value="3">Wednesday</option>
+        <option value="4">Thursday</option>
+        <option value="5">Friday</option>
+        <option value="6">Saturday</option>
+      </select>
+      <button type="button" onclick="search()">Search</button>
+    </form>
+    <form action="/search" method="post">
+      <input type="text" name="woxsenID" placeholder="Enter WoxsenID" required>
+      <input type="hidden" id="selectedDay" name="day" value="">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+  <div id="details">
+    <table>
+      <tr>
+        <th>WoxsenID</th>
+        <th>Name</th>
+        <th>Room</th>
+        <th>Submitted At</th>
+        <th>No of Clothes</th>
+        <th>Action</th>
+      </tr>
+      <% details.forEach(detail => { %>
+        <tr>
+          <td><%= detail.woxsenID %></td>
+          <td><%= detail.name %></td>
+          <td><%= detail.block %>-<%= detail.room_no %></td>
+          <td><%= detail.submittedAt ? detail.submittedAt.toLocaleString() : 'Not Submitted' %></td>
+          <td><%= detail.numberOfClothes %></td>
+          <td>
+            <form action="/delete" method="post">
+              <input type="hidden" name="id" value="<%= detail._id %>">
+              <input type="hidden" name="day" value="<%= selectedDay %>">
+              <button type="submit">Delete</button>
+            </form>
+            <% if (!detail.isSubmitted) { %>
+              <form action="/submit" method="post">
+                <input type="hidden" name="id" value="<%= detail._id %>">
+                <input type="hidden" name="day" value="<%= selectedDay %>">
+                <button type="submit">Submit</button>
+              </form>
+            <% } else { %>
+              <p class="submitted-text">Submitted</p>
+            <% } %>
+            <% if (!detail.pickedUp) { %>
+              <form action="/pickup" method="post">
+                <input type="hidden" name="id" value="<%= detail._id %>">
+                <input type="hidden" name="day" value="<%= selectedDay %>">
+                <button type="submit">Pickup</button>
+              </form>
+            <% } else { %>
+              <p class="not-picked-up">Picked up at: <%= detail.pickedUpAt ? detail.pickedUpAt.toLocaleString() : 'Not picked up' %></p>
+            <% } %>
+          </td>
+        </tr>
+      <% }); %>
+    </table>
+  </div>
+  <footer>
+    <p>&copy; 2023 Registration System. All rights reserved.</p>
+</footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("searchButton").addEventListener("click", function () {
+      search();
+    });
+  });
+
+  function search() {
+    var selectedDay = document.getElementById("day").value;
+    document.getElementById("selectedDay").value = selectedDay;
+    document.getElementById("searchForm").submit();
+  }
+</script>
+
+</body>
+</html>

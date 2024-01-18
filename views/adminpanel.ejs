@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background: linear-gradient(white, #3d4e61);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 90vh;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #242425;
+            color: #e9e9f0;
+            width: 100%;
+        }
+
+        header h3 {
+            margin: 0;
+            padding: 0;
+            font-size: 28px;
+        }
+
+        nav {
+            margin-top: 20px;
+        }
+
+        nav a {
+            color: #e9e9f0;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        #userDropdownBtn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: #e9e9f0;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #242425;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+
+        .dropdown-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px;
+        }
+
+        .dropdown-content li {
+            margin: 5px 0;
+        }
+
+        #userDropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .login-box {
+            width: 400px;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-box h2 {
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .login-box button {
+            background: transparent;
+            border: 2px solid #242425;
+            color: #e9e9f0;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 20px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .login-box button:hover {
+            background: #141414;
+            color: #fff;
+        }
+        footer {
+            background-color: #18171772;
+            color: #fff;
+            text-align: center;
+            padding: 0.5px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h3>Welcome to the Admin Panel!</h3>
+    </header>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/contactus">Contact Us</a>
+        <div class="dropdown" id="userDropdown">
+            <button id="userDropdownBtn">
+                <!-- Add a three-dotted icon or text as the button content -->
+                <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" class="icon-sm flex-shrink-0 text-gray-500 gizmo:hidden" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+            </button>
+            <div class="dropdown-content">
+                <!-- User details -->
+                <ul>
+                    <li><%= adminUser.name %></li>
+                    <li><%= adminUser.woxsenID %></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="login-box">
+        <button id="servicebutton" onclick="goToServices()">Services</button>
+        <button id="register" onclick="register()">User Registrations</button>
+        <button id="helpsection" onclick="goToHelpSection()">Help Section</button>
+    </div>
+    <footer>
+        <p>&copy; 2023 Registration System. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function goToServices() {
+            window.location.href = '/services'; // Redirect to the /services route
+        }
+
+        function register() {
+            window.location.href = '/register'; // Redirect to the /register route
+        }
+
+        function goToHelpSection() {
+            window.location.href = '/helpadmin'; // Redirect to the /helpstudents route
+        }
+    </script>
+</body>
+</html>

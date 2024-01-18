@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Help Form</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(white, #3d4e61);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+       
+
+        h1 {
+            color: #333;
+        }
+
+        .chat-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .message {
+            margin-bottom: 20px;
+        }
+
+        .user-message {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: right;
+        }
+
+        .bot-message {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        #responseMessage {
+            color: green;
+            margin-top: 10px;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1px;
+            justify-content: space-between;
+            text-emphasis-color: white;
+            width: 100%;
+            position: fixed; /* Add this line to fix the header at the top */
+            top: 0; /* Add this line to position it at the top */
+            z-index: 1000;
+            
+        
+        }
+        nav {
+            display: flex;
+            margin-top: 1px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        nav a:last-child {
+            margin-left: auto;
+        }
+        footer {
+            background-color: #18171772;
+            color: #fff;
+            text-align: center;
+            padding: 0.5px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h3>student helpForm</h3>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/contactus">Contact Us</a>
+            <a href="/profile">Profile</a>
+        </nav>
+
+    
+
+    </header>
+
+    <div id="responseMessage"></div>
+
+    <form id="helpForm" action="/helpsubmit" method="post" class="chat-container">
+        <!-- Add hidden input fields to store user details -->
+        <input type="hidden" id="userName" name="name" value="<%= user.name %>">
+        <input type="hidden" id="userPhone" name="phone" value="<%= user.phone %>">
+        <input type="hidden" id="userApplicationNumber" name="applicationNumber" value="<%= user.woxsenID %>">
+
+        <label for="query">Query:</label>
+        <textarea id="query" name="query" rows="4" cols="50" required></textarea><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <footer>
+        &copy; 2023 Student Help Form
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // JavaScript to fill hidden fields with user details
+            $('#userName').val('<%= user.name %>');
+            $('#userPhone').val('<%= user.phone %>');
+            $('#userApplicationNumber').val('<%= user.woxsenID %>');
+
+            $('#helpForm').submit(function (event) {
+                event.preventDefault();
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/helpsubmit',
+                    data: formData,
+                    success: function (response) {
+                        $('#responseMessage').text(response.message);
+                        // Reset the form after successful submission
+                        $('#helpForm')[0].reset();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $('#responseMessage').text('Error submitting data');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
